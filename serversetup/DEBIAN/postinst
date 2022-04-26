@@ -1,5 +1,8 @@
 realm list | grep active-directory
-if [ $? == 1]; then
+retVal=$?
+
+if [ $retVal -ne 0 ]; then
+    echo "DOG DOG"
     joined=n
     while [ $joined != "y" ]
     do

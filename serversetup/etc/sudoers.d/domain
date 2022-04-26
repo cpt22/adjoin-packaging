@@ -1,0 +1,2 @@
+%Domain\ Admins ALL=(ALL:ALL) ALL
+%Linux\ Admins ALL=(ALL:ALL) ALL

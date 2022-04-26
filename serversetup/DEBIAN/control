@@ -1,0 +1,10 @@
+Package: tingle-server-setup
+Version: 0.0.1
+Section: custom
+Priority: optional
+Architecture: all
+Essential: no
+Installed-Size: 1024
+Depends: python3, python3-dev, ntp, realmd, sssd-tools, sssd, libnss-sss, libpam-sss, packagekit, cifs-utils, libpam-mount, adcli
+Maintainer: Christian Tingle
+Description: Setup a Tingle Server

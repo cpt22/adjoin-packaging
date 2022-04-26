@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE pam_mount SYSTEM "pam_mount.conf.xml.dtd">
+<!--
+        See pam_mount.conf(5) for a description.
+-->
+
+<pam_mount>
+
+                <!-- debug should come before everything else,
+                since this file is still processed in a single pass
+                from top-to-bottom -->
+
+<debug enable="0" />
+
+                <!-- Volume definitions -->
+
+
+                <!-- pam_mount parameters: General tunables -->
+
+<!--
+<luserconf name=".pam_mount.conf.xml" />
+-->
+
+<!-- Note that commenting out mntoptions will give you the defaults.
+     You will need to explicitly initialize it with the empty string
+     to reset the defaults to nothing. -->
+<mntoptions allow="nosuid,nodev,loop,encryption,fsck,nonempty,allow_root,allow_other" />
+<!--
+<mntoptions deny="suid,dev" />
+<mntoptions allow="*" />
+<mntoptions deny="*" />
+-->
+<mntoptions require="nosuid,nodev" />
+
+<logout wait="0" hup="0" term="0" kill="0" />
+
+
+                <!-- pam_mount parameters: Volume-related -->
+
+<mkmountpoint enable="1" remove="true" />
+
+<!--
+
+<volume
+fstype="cifs"
+server="yourFileServer.AdDomainName.uni-freiburg.de"
+path="home"
+mountpoint="/home"
+options="vers=1.0,sec=ntlmv2,workgroup=YOUR_AD_NETBIOS_NAME" />
+
+-->
+
+<!--
+    WATCH OUT! on UBUNTU 18 the cifs mount option
+    "vers=1.0" **may** be required, because of some
+    weird bug/feature. See ...
+    https://bugs.launchpad.net/ubuntu/+source/cifs-utils/+bug/1764778
+    For some strange reason, it was not required to
+    mount any other network share, other than HOME.
+-->
+
+
+<!--
+
+NOTE: On earlier and other Linux Distros, like openSuse 13 it seems we have been able to use the ...
+    sec=krb5,cruid=%(USERUID)
+... mount options to access the network shares. On UBUNTU 18 however, we have been unable so far to achieve that for whatever reason. But we found out, that it will just >
+    sec=ntlmv2
+
+This might have to do with the fact, that we only had some SAMBA Server as AD DC and Fileserver, not a real Windows Server.
+
+EXAMPLES that hat seem to work on openSuse 13 :
+
+<volume
+fstype="cifs"
+server="yourFileServer.AdDomainName.uni-freiburg.de"
+path="home"
+mountpoint="/home"
+options="sec=krb5,cruid=%(USERUID),workgroup=YOUR_AD_NETBIOS_NAME" />
+
+<volume
+fstype="cifs"
+server="yourFileServer.AdDomainName.uni-freiburg.de"
+path="xray"
+mountpoint="/xray"
+options="sec=krb5,cruid=%(USERUID),workgroup=YOUR_AD_NETBIOS_NAME" />
+
+
+-->
+<volume
+fstype="cifs"
+server="FS-01.ad.tingle.family"
+path="Home/%(DOMAIN_USER)"
+mountpoint="/home/ad.tingle.family/%(DOMAIN_USER)/mydrive"
+options="sec=ntlmv2,workgroup=AD.TINGLE.FAMILY" />
+
+</pam_mount>

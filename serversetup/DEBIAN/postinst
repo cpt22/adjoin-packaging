@@ -1,0 +1,21 @@
+realm list | grep active-directory
+if [ $? == 1]; then
+    joined=n
+    while [ $joined != "y" ]
+    do
+        realm join -v ad.tingle.family --user=Administrator
+        echo "Was domain join successful? [yN]"
+        read joined
+    done
+done
+
+# Clean up sss db
+rm -rf /var/lib/sss/db/*
+systemctl restart sssd
+pam-auth-update
+
+#Realm Permissions
+echo "Setting realm permissions"
+realm deny --all
+realm permit -g Linux\ Admins@ad.tingle.family
+

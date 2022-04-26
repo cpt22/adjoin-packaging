@@ -7,7 +7,7 @@ if [ $? == 1]; then
         echo "Was domain join successful? [yN]"
         read joined
     done
-done
+fi
 
 # Clean up sss db
 rm -rf /var/lib/sss/db/*

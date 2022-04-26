@@ -12,19 +12,22 @@ if [ $retVal -ne 0 ]; then
     done
 fi
 
-cp /etc/tingle_server_setup/ntp.conf /etc/ntp.conf
+cp /opt/tingle_server_setup/ntp.conf /etc/ntp.conf
 
 # Clean up sss db
-cp /etc/tingle_server_setup/sssd.conf /etc/sssd/sssd.conf
+cp /opt/tingle_server_setup/sssd.conf /etc/sssd/sssd.conf
 rm -rf /var/lib/sss/db/*
 systemctl restart sssd
 pam-auth-update
+
+
+cp /opt/tingle_server_setup/00-on-login /etc/update-motd.d/00-on-login
+cp /opt/tingle_server_setup/pam_mount.conf.xml /etc/security/pam_mount.conf.xml
+echo "Copied motd and pam mount"
+
 
 #Realm Permissions
 echo "Setting realm permissions"
 realm deny --all
 realm permit -g Linux\ Admins@ad.tingle.family
-
-cp /etc/tingle_server_setup/00-on-login /etc/update-motd.d/00-on-login
-cp /etc/tingle_server_setup/pam_mount.conf.xml /etc/security/pam_mount.conf.xml
 

@@ -26,8 +26,8 @@ cp /opt/tingle_server_setup/pam_mount.conf.xml /etc/security/pam_mount.conf.xml
 echo "Copied motd and pam mount"
 
 
-#Realm Permissions
-echo "Setting realm permissions"
-realm deny --all
-realm permit -g Linux\ Admins@ad.tingle.family
+# Realm Permissions
+#echo "Setting realm permissions"
+#realm deny --all
+#realm permit -g Linux\ Admins@ad.tingle.family
 

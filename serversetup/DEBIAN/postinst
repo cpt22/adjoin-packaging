@@ -24,6 +24,7 @@ if [ $isJoined -ne 0 ]; then
 fi
 
 cp /opt/tingle_server_setup/00-on-login /etc/update-motd.d/00-on-login
+update-motd
 cp /opt/tingle_server_setup/pam_mount.conf.xml /etc/security/pam_mount.conf.xml
 echo "Copied motd and pam mount"
 

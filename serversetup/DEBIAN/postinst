@@ -18,11 +18,13 @@ cp /opt/tingle_server_setup/sssd.conf /etc/sssd/sssd.conf
 rm -rf /var/lib/sss/db/*
 systemctl restart sssd
 
-if [ $isJoined -ne 0]; then
+if [ $isJoined -ne 0 ]; then
     pam-auth-update
 fi
 
 cp /opt/tingle_server_setup/00-on-login /etc/update-motd.d/00-on-login
 cp /opt/tingle_server_setup/pam_mount.conf.xml /etc/security/pam_mount.conf.xml
 echo "Copied motd and pam mount"
+
+rm -rf /opt/tingle_server_setup
 

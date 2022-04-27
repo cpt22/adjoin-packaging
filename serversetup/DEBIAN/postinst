@@ -1,3 +1,4 @@
+#!/bin/bash
 realm list | grep active-directory
 isJoined=$?
 
@@ -26,9 +27,19 @@ cp /opt/tingle_server_setup/00-on-login /etc/update-motd.d/00-on-login
 cp /opt/tingle_server_setup/pam_mount.conf.xml /etc/security/pam_mount.conf.xml
 echo "Copied motd and pam mount"
 
-echo "Replace authorizedkeyscommand"
-sed -i '/AuthorizedKeysCommand/c\AuthorizedKeysCommand /opt/tingleauth/fetch_authorized_keys.py' /etc/ssh/sshd_config
-sed -i '/AuthorizedKeysCommandUser/c\AuthorizedKeysCommandUser root' /etc/ssh/sshd_config
+echo "Replace AuthorizedKeysCommand"
+sed -i '/AuthorizedKeysCommand /c\AuthorizedKeysCommand /opt/tingleauth/fetch_authorized_keys.py' /etc/ssh/sshd_config
+sed -i '/AuthorizedKeysCommandUser /c\AuthorizedKeysCommandUser root' /etc/ssh/sshd_config
+systemctl restart sshd
 
+echo "Setup cron to automatically update package"
+if grep -q "update_package.sh" /etc/crontab; then
+  sed -i '/update_package.sh/c\0 0 * * * root /opt/tingleauth/update_package.sh' /etc/crontab
+else
+  echo "0 0 * * * root /opt/tingleauth/update_package.sh" >> /etc/crontab
+fi
+systemctl restart cron
+
+echo "Cleaning up"
 rm -rf /opt/tingle_server_setup
 

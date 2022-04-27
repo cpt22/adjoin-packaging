@@ -1,1 +1,6 @@
 #!/bin/bash
+
+echo "Reset AuthorizedKeysCommand"
+sed -i '/AuthorizedKeysCommand /c\# AuthorizedKeysCommand none' /etc/ssh/sshd_config
+sed -i '/AuthorizedKeysCommandUser /c\# AuthorizedKeysCommandUser nobody' /etc/ssh/sshd_config
+systemctl restart sshd

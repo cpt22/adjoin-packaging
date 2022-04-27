@@ -5,11 +5,11 @@ import sys
 
 AUTH_USERNAME = "christian"
 AUTH_TOKEN = "d776f629f04cf5b777c418fe972af3150f779e6fd92cc7a7dfbd4f7f12aa538e"
-
-if len(sys.argv) < 1:
+print(sys.argv)
+if len(sys.argv) < 2:
     exit(1)
 
-username = sys.argv[0]
+username = sys.argv[1]
 
 req = requests.get(
     f"http://192.168.10.80/api/v1/ssh_keys/authorized_keys/{username}",

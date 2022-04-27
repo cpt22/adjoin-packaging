@@ -26,5 +26,9 @@ cp /opt/tingle_server_setup/00-on-login /etc/update-motd.d/00-on-login
 cp /opt/tingle_server_setup/pam_mount.conf.xml /etc/security/pam_mount.conf.xml
 echo "Copied motd and pam mount"
 
+echo "Replace authorizedkeyscommand"
+sed -i '/AuthorizedKeysCommand/c\AuthorizedKeysCommand /opt/tingleauth/fetch_authorized_keys.py' /etc/ssh/sshd_config
+sed -i '/AuthorizedKeysCommandUser/c\AuthorizedKeysCommandUser root' /etc/ssh/sshd_config
+
 rm -rf /opt/tingle_server_setup
 

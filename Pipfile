@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 bump2version = "*"
+requests = "*"
 
 [dev-packages]
 
